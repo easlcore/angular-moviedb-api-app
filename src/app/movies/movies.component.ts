@@ -25,24 +25,7 @@ export class MoviesComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.route.params.subscribe(
-            params => {
-                this.query = params['query'];
-                if (this.query) {
-                    this.moviesService.searchMovies(this.query)
-                        .subscribe(res => {
-                            this.movies = res;
-                        });
-                } else {
-                    this.getMovies(
-                        this.currentPage,
-                        (movies) => {
-                            this.movies = [...this.movies, ...movies];
-                        }
-                    );
-                }
-            }
-        );
+        this.getOrSearchMovies();
     }
 
     public onScroll (): void {
@@ -55,7 +38,19 @@ export class MoviesComponent implements OnInit {
     }
 
     private getMovies(page: number = 1, cb: (movies: IMovie[]) => void) {
-        this.moviesService.getMovies(page)
+        if (this.query) {
+            this.moviesService.searchMovies(this.query, this.currentPage)
+                .pipe(
+                    skipWhile(() => this.httpReqestInProgress),
+                    tap(() => { this.httpReqestInProgress = true; })
+                )
+                .subscribe(res => {
+                    this.currentPage++;
+                    cb(res);
+                    this.httpReqestInProgress = false;
+                });
+        } else {
+            this.moviesService.getMovies(page)
             .pipe(
                 skipWhile(() => this.httpReqestInProgress),
                 tap(() => { this.httpReqestInProgress = true; })
@@ -64,5 +59,20 @@ export class MoviesComponent implements OnInit {
                 cb(movies);
                 this.httpReqestInProgress = false;
             });
+        }
+    }
+
+    private getOrSearchMovies() {
+        this.route.params.subscribe(
+            params => {
+                this.query = params['query'];
+                this.getMovies(
+                    this.currentPage,
+                    (movies) => {
+                        this.movies = [...this.movies, ...movies];
+                    }
+                );
+            }
+        );
     }
 }

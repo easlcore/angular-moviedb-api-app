@@ -28,7 +28,7 @@ export class MoviesService {
     }
 
     public searchMovies(query: string, page: number = 1) {
-        const searchUrl = `${this.searchUrl}?api_key=${this.apiKey}&language=${this.language}&query=${query}`;
+        const searchUrl = `${this.searchUrl}?api_key=${this.apiKey}&language=${this.language}&query=${query}&page=${page}`;
 
         return this.http.get<ISearch>(searchUrl)
             .pipe(
