@@ -1,0 +1,23 @@
+<header class="header">
+    <span>logo</span>
+    <div class="search">
+        <div class="ui action input">
+                <input
+                    #inputSearch
+                    type="text"
+                    class="search__input"
+                    (keyup.enter)="search(inputSearch.value)"
+                >
+                <div class="ui  grid">
+                    <div class="computer only tablet only row">
+                        <button class="ui orange right labeled icon button" type="submit" (click)="search(inputSearch.value)">
+                            <i class="search icon"></i>
+                            <span>
+                                Найти
+                            </span>
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</header>

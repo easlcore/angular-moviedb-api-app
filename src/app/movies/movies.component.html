@@ -1,0 +1,29 @@
+<div
+    class="movies ui container"
+    infiniteScroll
+    [infiniteScrollThrottle]="150"
+    (scrolled)="onScroll()"
+    [infiniteScrollDisabled]="true"
+>
+    <div class="ui link five doubling cards">
+        <div class="card" *ngFor="let movie of movies">
+            <div class="image">
+                <img *ngIf="movie.poster_path" class="ui middle aligned tiny image" src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}">
+                <img *ngIf="!movie.poster_path" class="ui middle aligned tiny image" src="https://placehold.it/500x740">
+            </div>
+            <div class="content">
+                <div class="header">
+                    {{ movie.title }}
+                </div>
+        
+                <div class="description">
+                  <span>Рейтинг</span>
+                  : {{ movie.popularity  | number : '1.0-1' }}
+                  <br>
+                  <span>Голосов</span>
+                  : {{ movie.vote_count }}
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

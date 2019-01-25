@@ -1,0 +1,13 @@
+:host {
+    height: 100%;
+}
+
+.movies {
+    padding: 25px 0;
+}
+
+.movie-card {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #dadce0;
+}

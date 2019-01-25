@@ -1,0 +1,24 @@
+:host {
+    box-shadow: 0 0 4px rgba(0,0,0,.2);
+    background: #fff;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+    padding: 24px;
+}
+
+.header {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.search__input {
+    margin-right: 15px;
+}
