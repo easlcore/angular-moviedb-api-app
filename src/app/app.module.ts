@@ -9,6 +9,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MoviesComponent } from './movies/movies.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MoviesService } from './movies/movies.service';
 
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full'},
     { path: 'home', component: MoviesComponent },
     { path: 'search/:query', component: MoviesComponent },
+    { path: 'movie/:id', component: MovieDetailsComponent },
     { path: '**', component: PageNotFoundComponent },
 ]
 
@@ -24,7 +26,8 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     MoviesComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,

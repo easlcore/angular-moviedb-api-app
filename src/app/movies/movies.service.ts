@@ -5,11 +5,13 @@ import { map } from  'rxjs/operators';
 
 import { IMovie } from './IMovie';
 import { ISearch } from './ISearch';
+import { IGenreResponse } from './IGenre';
 
 @Injectable()
 export class MoviesService {
     private url = 'https://api.themoviedb.org/3/movie/';
     private searchUrl = 'https://api.themoviedb.org/3/search/movie';
+    private genresUrl = 'https://api.themoviedb.org/3/genre/movie/list'
     private apiKey = '4f274e286c0dcca47936de60a193f303';
     private language = 'ru';
 
@@ -35,5 +37,22 @@ export class MoviesService {
                 map(res => res.results || [])
             );
     }
-    
+
+    public getMovieDetails(id: number) {
+        const url = `${this.url}${id}?api_key=${this.apiKey}&language=${this.language}`;
+
+        return this.http.get<IMovie>(url)
+            .pipe(
+                map(res => res)
+            );
+    }
+
+    public getGenres() {
+        const url = `${this.genresUrl}?api_key=${this.apiKey}&language=${this.language}`;
+
+        return this.http.get<IGenreResponse>(url)
+            .pipe(
+                map(res => res.genres)
+            ).toPromise()
+    }
 }

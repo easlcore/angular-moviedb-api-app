@@ -5,6 +5,7 @@ import { skipWhile, tap } from 'rxjs/operators';
 
 import { IMovie } from './IMovie'; 
 import { MoviesService } from './movies.service';
+import { IGenre } from './IGenre';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { MoviesService } from './movies.service';
 export class MoviesComponent implements OnInit {
     public movies: IMovie[] = [];
     public httpReqestInProgress: boolean = false;
+    public genres: IGenre[];
     private currentPage = 1;
     private query: string = '';
 
@@ -24,7 +26,8 @@ export class MoviesComponent implements OnInit {
         private moviesService: MoviesService
     ) {}
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.genres = await this.moviesService.getGenres();
         this.getOrSearchMovies();
     }
 
@@ -32,7 +35,12 @@ export class MoviesComponent implements OnInit {
         this.getMovies(
             this.currentPage,
             (movies) => {
-                this.movies = [...this.movies, ...movies];
+                this.movies = [...this.movies, ...movies].map(movie => {
+                    return {
+                        ...movie,
+                        genres: this.genres.filter(genre => movie.genre_ids.some(id => id === genre.id))
+                    }
+                });
             }
         );
     }
@@ -51,14 +59,14 @@ export class MoviesComponent implements OnInit {
                 });
         } else {
             this.moviesService.getMovies(page)
-            .pipe(
-                skipWhile(() => this.httpReqestInProgress),
-                tap(() => { this.httpReqestInProgress = true; })
-            ).subscribe((movies: IMovie[]) => {
-                this.currentPage++;
-                cb(movies);
-                this.httpReqestInProgress = false;
-            });
+                .pipe(
+                    skipWhile(() => this.httpReqestInProgress),
+                    tap(() => { this.httpReqestInProgress = true; })
+                ).subscribe((movies: IMovie[]) => {
+                    this.currentPage++;
+                    cb(movies);
+                    this.httpReqestInProgress = false;
+                });
         }
     }
 
@@ -69,7 +77,12 @@ export class MoviesComponent implements OnInit {
                 this.getMovies(
                     this.currentPage,
                     (movies) => {
-                        this.movies = [...this.movies, ...movies];
+                        this.movies = [...this.movies, ...movies].map(movie => {
+                            return {
+                                ...movie,
+                                genres: this.genres.filter(genre => movie.genre_ids.some(id => id === genre.id))
+                            }
+                        });
                     }
                 );
             }

@@ -4,6 +4,7 @@
     border-bottom: 1px solid #efefef;
     display: flex;
     padding: 24px;
+    margin-bottom: 1em;
 }
 
 .header {
