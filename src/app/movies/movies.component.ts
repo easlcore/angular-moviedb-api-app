@@ -77,7 +77,9 @@ export class MoviesComponent implements OnInit {
                 this.getMovies(
                     this.currentPage,
                     (movies) => {
-                        this.movies = [...this.movies, ...movies].map(movie => {
+                        this.movies = (!this.query ?
+                                [...this.movies, ...movies] :
+                                movies).map(movie => {
                             return {
                                 ...movie,
                                 genres: this.genres.filter(genre => movie.genre_ids.some(id => id === genre.id))

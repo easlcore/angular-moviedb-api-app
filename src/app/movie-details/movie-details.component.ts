@@ -39,6 +39,10 @@ export class MovieDetailsComponent implements OnInit {
         )
     }
 
+    public goBack() {
+        this.location.back();
+    }
+
     private getDetails(id: number) {
         return this.moviesService.getMovieDetails(id);
     }
