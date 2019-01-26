@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MoviesService } from '../movies/movies.service';
 import { IMovie } from '../movies/IMovie';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-movie-details',
@@ -11,6 +12,7 @@ import { IMovie } from '../movies/IMovie';
 })
 export class MovieDetailsComponent implements OnInit {
     public movie: IMovie;
+    public recommendations: IMovie[];
 
     public constructor(
         private moviesService: MoviesService,
@@ -23,18 +25,25 @@ export class MovieDetailsComponent implements OnInit {
             params => {
                 const id = params['id'];
                 if (id) {
-                    this.getDetails(id);
+                    const details = this.getDetails(id);
+                    const recommendations = this.getRecomendations(id);
+
+                    forkJoin([details, recommendations])
+                        .subscribe(results => {
+                            this.movie = results[0];
+                            this.recommendations = results[1];
+                            console.log(results)
+                        })
                 }
             }
         )
     }
 
     private getDetails(id: number) {
-        this.moviesService.getMovieDetails(id)
-            .subscribe(
-                res => {
-                    this.movie = res;
-                }
-            )
+        return this.moviesService.getMovieDetails(id);
+    }
+
+    private getRecomendations(id: number) {
+        return this.moviesService.getRecomendations(id);
     }
 }

@@ -55,4 +55,13 @@ export class MoviesService {
                 map(res => res.genres)
             ).toPromise()
     }
+
+    public getRecomendations(id: number) {
+        const url = `${this.url}${id}/recommendations?api_key=${this.apiKey}&language=${this.language}`;
+
+        return this.http.get<ISearch>(url)
+            .pipe(
+                map(res => res.results)
+            )
+    }
 }
