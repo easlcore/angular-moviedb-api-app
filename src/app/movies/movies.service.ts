@@ -24,7 +24,7 @@ export class MoviesService {
 
         return this.http.get<ISearch>(moviesUrl)
             .pipe(
-                map(res => res.results || [])
+                map(res => res)
             )
             
     }
@@ -34,7 +34,7 @@ export class MoviesService {
 
         return this.http.get<ISearch>(searchUrl)
             .pipe(
-                map(res => res.results || [])
+                map(res => res)
             );
     }
 

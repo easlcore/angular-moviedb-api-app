@@ -6,6 +6,7 @@ import { skipWhile, tap } from 'rxjs/operators';
 import { IMovie } from './IMovie'; 
 import { MoviesService } from './movies.service';
 import { IGenre } from './IGenre';
+import { ISearch } from './ISearch';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class MoviesComponent implements OnInit {
     public genres: IGenre[];
     private currentPage = 1;
     private query: string = '';
+    private totalPages: number = 0;
 
     public constructor(
         // private router: Router,
@@ -32,10 +34,10 @@ export class MoviesComponent implements OnInit {
     }
 
     public onScroll (): void {
-        this.getMovies(
+        this.totalPages >= this.currentPage && this.getMovies(
             this.currentPage,
-            (movies) => {
-                this.movies = [...this.movies, ...movies].map(movie => {
+            (res) => {
+                this.movies = [...this.movies, ...res.results].map(movie => {
                     return {
                         ...movie,
                         genres: this.genres.filter(genre => movie.genre_ids.some(id => id === genre.id))
@@ -45,7 +47,7 @@ export class MoviesComponent implements OnInit {
         );
     }
 
-    private getMovies(page: number = 1, cb: (movies: IMovie[]) => void) {
+    private getMovies(page: number = 1, cb: (movies: ISearch) => void) {
         if (this.query) {
             this.moviesService.searchMovies(this.query, this.currentPage)
                 .pipe(
@@ -62,9 +64,9 @@ export class MoviesComponent implements OnInit {
                 .pipe(
                     skipWhile(() => this.httpReqestInProgress),
                     tap(() => { this.httpReqestInProgress = true; })
-                ).subscribe((movies: IMovie[]) => {
+                ).subscribe(res => {
                     this.currentPage++;
-                    cb(movies);
+                    cb(res);
                     this.httpReqestInProgress = false;
                 });
         }
@@ -76,15 +78,17 @@ export class MoviesComponent implements OnInit {
                 this.query = params['query'];
                 this.getMovies(
                     this.currentPage,
-                    (movies) => {
+                    (res) => {
                         this.movies = (!this.query ?
-                                [...this.movies, ...movies] :
-                                movies).map(movie => {
+                                [...this.movies, ...res.results] :
+                                res.results).map(movie => {
                             return {
                                 ...movie,
                                 genres: this.genres.filter(genre => movie.genre_ids.some(id => id === genre.id))
                             }
                         });
+
+                        this.totalPages = res.total_pages;
                     }
                 );
             }

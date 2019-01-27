@@ -36,7 +36,10 @@
               </div>
         </div>
     </div>
-    <div class="ui placeholder segment">
+    <div
+        class="ui placeholder segment"
+        *ngIf="query && !movies.length"
+    >
         <div class="ui icon header">
             <i class="search icon"></i>
             Не найдено фильмов по запросу: <span class="ui grey label horizontal">{{ query }}</span>
