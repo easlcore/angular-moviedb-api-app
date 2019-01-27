@@ -13,7 +13,10 @@
         </div>
     </h2>
 
-    <div class="ui floating message">
+    <div
+        class="ui floating message"
+        [ngClass]="{'success': isInFavorites(movie?.id)}"
+    >
         <div class="ui padded grid">
             <div class="middle aligned sixteen wide mobile eight wide tablet four wide computer column">
                 <img
@@ -22,6 +25,22 @@
                     src="https://image.tmdb.org/t/p/w500{{movie?.poster_path}}"
                     alt="movie image"
                 >
+                <div class="two ui buttons">
+                        <button
+                        (click)="addToFavorite($event, movie)"
+                        *ngIf="!isInFavorites(movie?.id)"
+                        class="ui blue right button tiny"
+                    >
+                        Добавить в избранное
+                    </button>
+                    <button
+                        (click)="removeFromFavorite($event, movie)"
+                        *ngIf="isInFavorites(movie?.id)"
+                        class="ui blue right button tiny"
+                    >
+                        Удалить из избранного
+                    </button>
+                </div>
             </div>
 
             <div class="sixteen wide mobile eight wide tablet twelve wide computer column">

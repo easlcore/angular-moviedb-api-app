@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { MoviesService } from '../movies/movies.service';
 import { IMovie } from '../movies/IMovie';
 import { forkJoin } from 'rxjs';
+import { FavoritesService } from '../movies/favorites.service';
 
 @Component({
     selector: 'app-movie-details',
@@ -13,11 +14,13 @@ import { forkJoin } from 'rxjs';
 export class MovieDetailsComponent implements OnInit {
     public movie: IMovie;
     public recommendations: IMovie[];
+    public favorites: IMovie[];
 
     public constructor(
         private moviesService: MoviesService,
         private route: ActivatedRoute,
-        private location: Location
+        private location: Location,
+        private favoritesService: FavoritesService
     ) {}
 
     ngOnInit() {
@@ -32,15 +35,35 @@ export class MovieDetailsComponent implements OnInit {
                         .subscribe(results => {
                             this.movie = results[0];
                             this.recommendations = results[1];
-                            console.log(results)
                         })
                 }
             }
-        )
+        );
+
+        this.favoritesService.select('favorites', [])
+            .subscribe(res => {
+                this.favorites = res;
+            });
     }
 
     public goBack() {
         this.location.back();
+    }
+
+    public addToFavorite(event, movie: IMovie) {
+        event.stopPropagation();
+        const arr = [...this.favorites, movie];
+        this.favoritesService.set('favorites', arr);
+    }
+
+    public removeFromFavorite(event, movie: IMovie) {
+        event.stopPropagation();
+        const arr = this.favorites.filter(item => item.id !== movie.id);
+        this.favoritesService.set('favorites', arr);
+    }
+
+    public isInFavorites(id: number) {
+        return this.favorites.some(movie => movie.id === id);
     }
 
     private getDetails(id: number) {

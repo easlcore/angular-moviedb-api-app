@@ -12,15 +12,31 @@
         <i class="home icon"></i>
         На главную
     </a>
-    <div class="ui link five doubling cards">
-        <div class="card" *ngFor="let movie of movies" [routerLink]="['/movie/'+movie.id]" routerLinkActive="active">
+    <div class="ui link four doubling cards">
+        <div class="card" *ngFor="let movie of movies" (click)="goToMovie(movie.id)">
             <div class="image">
                 <img *ngIf="movie.poster_path" class="ui middle aligned tiny image" src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}">
                 <img *ngIf="!movie.poster_path" class="ui middle aligned tiny image" src="https://placehold.it/500x740">
             </div>
             <div class="content">
-                <div class="header">
-                    {{ movie.title }}
+                <div class="ui grid header">
+                    <span class="thirteen wide column">{{ movie.title }}</span>
+                    <span
+                        (click)="addToFavorite($event, movie)"
+                        *ngIf="!isInFavorites(movie.id)"
+                        class="ui right floated three wide column"
+                        data-tooltip="Добавить в избранное"
+                    >
+                        <i class="ui icon small check blue"></i>
+                    </span>
+                    <span
+                        (click)="removeFromFavorite($event, movie)"
+                        *ngIf="isInFavorites(movie.id)"
+                        class="ui right floated three wide column"
+                        data-tooltip="Удалить из избранного"
+                    >
+                        <i class="ui icon small trash blue"></i>
+                    </span>
                 </div>
         
                 <div class="description">

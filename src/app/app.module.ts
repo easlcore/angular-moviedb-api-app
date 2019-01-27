@@ -12,6 +12,7 @@ import { MoviesComponent } from './movies/movies.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MoviesService } from './movies/movies.service';
+import { FavoritesService } from './movies/favorites.service';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
   ],
   exports: [ RouterModule ],
   providers: [
-    MoviesService
+    MoviesService,
+    FavoritesService
   ],
   bootstrap: [
       AppComponent

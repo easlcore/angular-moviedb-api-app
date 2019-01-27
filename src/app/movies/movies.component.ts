@@ -1,12 +1,12 @@
 import { Component, OnInit }        from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { skipWhile, tap } from 'rxjs/operators';
 
 import { IMovie } from './IMovie'; 
 import { MoviesService } from './movies.service';
 import { IGenre } from './IGenre';
 import { ISearch } from './ISearch';
+import { FavoritesService } from './favorites.service';
 
 
 @Component({
@@ -18,19 +18,25 @@ export class MoviesComponent implements OnInit {
     public movies: IMovie[] = [];
     public httpReqestInProgress: boolean = false;
     public genres: IGenre[];
+    private favorites: IMovie[] = [];
     private currentPage = 1;
     private query: string = '';
     private totalPages: number = 0;
 
     public constructor(
-        // private router: Router,
+        private router: Router,
         private route: ActivatedRoute,
-        private moviesService: MoviesService
+        private moviesService: MoviesService,
+        private favoritesService: FavoritesService
     ) {}
 
     public async ngOnInit() {
         this.genres = await this.moviesService.getGenres();
         this.getOrSearchMovies();
+        this.favoritesService.select('favorites', [])
+            .subscribe(res => {
+                this.favorites = res;
+            })
     }
 
     public onScroll (): void {
@@ -45,6 +51,26 @@ export class MoviesComponent implements OnInit {
                 });
             }
         );
+    }
+
+    public goToMovie(id: number) {
+        this.router.navigate([`/movie/${id}`])
+    }
+
+    public addToFavorite(event, movie: IMovie) {
+        event.stopPropagation();
+        const arr = [...this.favorites, movie];
+        this.favoritesService.set('favorites', arr);
+    }
+
+    public removeFromFavorite(event, movie: IMovie) {
+        event.stopPropagation();
+        const arr = this.favorites.filter(item => item.id !== movie.id);
+        this.favoritesService.set('favorites', arr);
+    }
+
+    public isInFavorites(id: number) {
+        return this.favorites.some(movie => movie.id === id);
     }
 
     private getMovies(page: number = 1, cb: (movies: ISearch) => void) {
