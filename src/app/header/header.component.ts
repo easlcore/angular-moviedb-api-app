@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }                   from '@angular/router';
-import { MoviesService } from '../movies/movies.service';
 
 @Component({
     selector: 'app-header',
@@ -13,7 +12,6 @@ export class HeaderComponent implements OnInit {
     title = 'MovieDB App';
 
     public constructor(
-        // private moviesService: MoviesService,
         private router: Router
     ) {}
 

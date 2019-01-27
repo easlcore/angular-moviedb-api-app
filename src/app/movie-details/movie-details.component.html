@@ -60,15 +60,15 @@
                 </div>
 
                 <div class="ui centered grid">
-                        <div  class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
-                            <div class="ui sub header">
-                                <span>Рекомендации</span>
-                            </div>
-                            <span
-                                *ngFor="let rec of recommendations; let isLast = last">
-                                {{ rec.title }}{{ isLast ? '' : ', '}}
-                            </span>
+                    <div  class="sixteen wide mobile sixteen wide tablet sixteen wide computer column">
+                        <div class="ui sub header">
+                            <span>Рекомендации</span>
                         </div>
+                        <span
+                            *ngFor="let rec of recommendations; let isLast = last">
+                            {{ rec.title }}{{ isLast ? '' : ', '}}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

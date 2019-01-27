@@ -1,0 +1,8 @@
+.favorite-link:hover {
+    cursor: pointer;
+}
+
+.favorite-link:active,
+.favorite-link:focus {
+    outline: none;
+}

@@ -13,12 +13,14 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MoviesService } from './movies/movies.service';
 import { FavoritesService } from './favorites/favorites.service';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full'},
     { path: 'home', component: MoviesComponent },
     { path: 'search/:query', component: MoviesComponent },
     { path: 'movie/:id', component: MovieDetailsComponent },
+    { path: 'favorites', component: FavoritesComponent },
     { path: '**', component: PageNotFoundComponent },
 ]
 
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     MoviesComponent,
     PageNotFoundComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,

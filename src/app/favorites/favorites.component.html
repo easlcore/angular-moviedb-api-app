@@ -1,0 +1,26 @@
+<div class="ui container">
+    <div *ngIf="favorites.length" class="ui list">
+        <div
+            class="item"
+            *ngFor="let movie of favorites"
+        >
+            <span
+                (click)="removeFromFavorite($event, movie)"
+                class="ui left floated favorite-link"
+                data-tooltip="Удалить из избранного"
+            >
+                <i class="ui icon small trash blue"></i>
+            </span>
+            <div
+                class="content favorite-link"
+                [routerLink]="['/movie/' + movie.id]"
+            >
+                <div class="header">{{ movie.title }}</div>
+                <div class="description">{{ movie.overview }} </div>
+            </div>
+        </div>
+    </div>
+    <h2 *ngIf="!favorites.length">
+        В избранное ничего не добавлено
+    </h2>
+</div>
