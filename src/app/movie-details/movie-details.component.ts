@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { MoviesService } from '../movies/movies.service';
 import { IMovie } from '../movies/IMovie';
 import { forkJoin } from 'rxjs';
-import { FavoritesService } from '../movies/favorites.service';
+import { FavoritesService } from '../favorites/favorites.service';
 
 @Component({
     selector: 'app-movie-details',

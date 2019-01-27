@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { IMovie } from './IMovie';
-
 @Injectable()
 export class FavoritesService {
     protected subjects: {[key: string]: BehaviorSubject<any>} = {};

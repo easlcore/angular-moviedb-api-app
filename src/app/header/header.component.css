@@ -1,17 +1,17 @@
-:host {
-    box-shadow: 0 0 4px rgba(0,0,0,.2);
-    background: #fff;
-    border-bottom: 1px solid #efefef;
-    display: flex;
-    padding: 24px;
-    margin-bottom: 1em;
-}
-
 .header {
     flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.header-logo:hover {
+    cursor: pointer;
+}
+
+.header-logo:active,
+.header-logo:focus {
+    outline: none;
 }
 
 .search {

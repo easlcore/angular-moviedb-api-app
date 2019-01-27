@@ -12,7 +12,7 @@ import { MoviesComponent } from './movies/movies.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MoviesService } from './movies/movies.service';
-import { FavoritesService } from './movies/favorites.service';
+import { FavoritesService } from './favorites/favorites.service';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full'},

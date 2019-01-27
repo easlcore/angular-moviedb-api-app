@@ -6,7 +6,7 @@ import { IMovie } from './IMovie';
 import { MoviesService } from './movies.service';
 import { IGenre } from './IGenre';
 import { ISearch } from './ISearch';
-import { FavoritesService } from './favorites.service';
+import { FavoritesService } from '../favorites/favorites.service';
 
 
 @Component({
